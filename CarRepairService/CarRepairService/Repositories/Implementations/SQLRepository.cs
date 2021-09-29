@@ -1,4 +1,5 @@
 ﻿using CarRepairService.DataBase;
+using CarRepairService.Mappers;
 using CarRepairService.Models;
 using CarRepairService.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,12 @@ namespace CarRepairService.Repositories.Implementations
     public class SQLRepository<T> : ControllerBase, IRepository<T> where T : BaseModel
     {
         private readonly CRSContext db;
+        private readonly IMapper<T> mapper;
 
-        public SQLRepository(CRSContext  context)
+        public SQLRepository(CRSContext  context, IMapper<T> modelMapper)
         {
             db = context;
+            mapper = modelMapper;
         }
 
         public IEnumerable<T> GetList()
@@ -37,24 +40,28 @@ namespace CarRepairService.Repositories.Implementations
             return Ok(item);
         }
 
+        //patch
         public ActionResult<T> Update(T item)
         {
             if (item == null)
                 return BadRequest();
             if (!db.Set<T>().Any(x => x.Id == item.Id))
                 return NotFound();
-            db.Update(item);    
+            T? dbworker = db.Set<T>().FirstOrDefault(x => x.Id == item.Id);
+            if (dbworker == null)
+                return BadRequest();
+            mapper.Map(item, dbworker);
+            db.Update(dbworker);
             db.SaveChanges();
             return Ok(item);
         }
+        //маппер
 
         public ActionResult<T> Delete(int id)
         {
             T? item = db.Set<T>().FirstOrDefault(x => x.Id == id);
             if (item == null)
-            {
                 return NotFound();
-            }
             db.Set<T>().Remove(item);
             db.SaveChanges();
             return Ok(item);
