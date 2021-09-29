@@ -5,11 +5,11 @@ namespace CarRepairService.Repositories.Interfaces
 {
     public interface IRepository<T> /*: IDisposable*/ where T : BaseModel
     {
-        Task<IEnumerable<T>> GetList(); // получение всех объектов
-        Task<ActionResult<T>> Get(int id);
-        Task<ActionResult<T>> Create(T item);
-        Task<ActionResult<T>> Update(T item);
-        Task<ActionResult<T>> Delete(int id);
-        //void Save();  // сохранение изменений
+        IEnumerable<T> GetList();
+        ActionResult<T> Get(int id);
+        ActionResult<T> Create(T item);
+        ActionResult<T> Update(T item);
+        ActionResult<T> Delete(int id);
+        //void Save();
     }
 }

@@ -13,36 +13,41 @@ namespace CarRepairService.Controllers
         public WorkersController(IRepository<Worker> worker)
         {
             Workers = worker;
+            if (!Workers.GetList().Any())
+            {
+                Workers.Create(new Worker { Name = "Долгова Ульяна Артёмовна", Telephone = "206-02-09" });
+                Workers.Create(new Worker { Name = "Сергеев Сергей Маркович", Telephone = "598-75-95" });
+            }
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Worker>> Get()
+        public IEnumerable<Worker> Get()
         {
-            return await Workers.GetList();
+            return Workers.GetList();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Worker>> Get(int id)
+        public ActionResult<Worker> Get(int id)
         {
-            return await Workers.Get(id);
+            return Workers.Get(id);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Worker>> Post(Worker worker)
+        public ActionResult<Worker> Post(Worker worker)
         {
-            return await Workers.Create(worker);
+            return Workers.Create(worker);
         }
 
         [HttpPut]
-        public async Task<ActionResult<Worker>> Put(Worker worker)
+        public ActionResult<Worker> Put(Worker worker)
         {
-            return await Workers.Update(worker);
+            return Workers.Update(worker);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Worker>> Delete(int id)
+        public ActionResult<Worker> Delete(int id)
         {
-            return await Workers.Delete(id);
+            return Workers.Delete(id);
         }
     }
 }

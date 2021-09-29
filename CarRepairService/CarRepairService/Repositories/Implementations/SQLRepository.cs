@@ -15,40 +15,40 @@ namespace CarRepairService.Repositories.Implementations
             db = context;
         }
 
-        public async Task<IEnumerable<T>> GetList()
+        public IEnumerable<T> GetList()
         {
-            return await db.Set<T>().ToListAsync();
+            return db.Set<T>().ToList();
         }
 
-        public async Task<ActionResult<T>> Get(int id)
+        public ActionResult<T> Get(int id)
         {
-            T item = await db.Set<T>().FirstOrDefaultAsync(m => m.Id == id);
+            T? item = db.Set<T>().FirstOrDefault(m => m.Id == id);
             if (item == null)
                 return NotFound();
             return new ObjectResult(item);
         }
 
-        public async Task<ActionResult<T>> Create(T item)
+        public ActionResult<T> Create(T item)
         {
             if (item == null)
                 return BadRequest();
             db.Set<T>().Add(item);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return Ok(item);
         }
 
-        public async Task<ActionResult<T>> Update(T item)
+        public ActionResult<T> Update(T item)
         {
             if (item == null)
                 return BadRequest();
-            if (db.Set<T>().Any(x => x.Id == item.Id) == false)
+            if (!db.Set<T>().Any(x => x.Id == item.Id))
                 return NotFound();
-            db.Update(item);
-            await db.SaveChangesAsync();
+            db.Update(item);    
+            db.SaveChanges();
             return Ok(item);
         }
 
-        public async Task<ActionResult<T>> Delete(int id)
+        public ActionResult<T> Delete(int id)
         {
             T? item = db.Set<T>().FirstOrDefault(x => x.Id == id);
             if (item == null)
@@ -56,7 +56,7 @@ namespace CarRepairService.Repositories.Implementations
                 return NotFound();
             }
             db.Set<T>().Remove(item);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return Ok(item);
         }
 

@@ -15,33 +15,33 @@ namespace CarRepairService.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Document>> Get()
+        public IEnumerable<Document> Get()
         {
-            return await Documents.GetList();
+            return Documents.GetList();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Document>> Get(int id)
+        public ActionResult<Document> Get(int id)
         {
-            return await Documents.Get(id);
+            return Documents.Get(id);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Document>> Post(Document document)
+        public ActionResult<Document> Post(Document document)
         {
-            return await Documents.Create(document);
+            return Documents.Create(document);
         }
 
         [HttpPut]
-        public async Task<ActionResult<Document>> Put(Document document)
+        public ActionResult<Document> Put(Document document)
         {
-            return await Documents.Update(document);
+            return Documents.Update(document);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Document>> Delete(int id)
+        public ActionResult<Document> Delete(int id)
         {
-            return await Documents.Delete(id);
+            return Documents.Delete(id);
         }
     }
 }

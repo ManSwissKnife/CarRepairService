@@ -12,42 +12,41 @@ namespace CarRepairService.Controllers
         public CarsController(IRepository<Car> car)
         {
             Cars = car;
-            if (Cars.GetList().Result.Count() == 0)
+            if (!Cars.GetList().Any())
             {
-                db.Users.Add(new User { Name = "Tom", Age = 26 });
-                db.Users.Add(new User { Name = "Alice", Age = 31 });
-                db.SaveChanges();
+                Cars.Create(new Car { Name = "Bentley", Number = "BM7105AX" });
+                Cars.Create(new Car { Name = "BMW", Number = "BM3559AA" });
             }
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Car>> Get()
+        public IEnumerable<Car> Get()
         {
-            return await Cars.GetList();
+            return Cars.GetList();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Car>> Get(int id)
+        public ActionResult<Car> Get(int id)
         {
-            return await Cars.Get(id);
+            return Cars.Get(id);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Car>> Post(Car car)
+        public ActionResult<Car> Post(Car car)
         {
-            return await Cars.Create(car);
+            return Cars.Create(car);
         }
 
         [HttpPut]
-        public async Task<ActionResult<Car>> Put(Car car)
+        public ActionResult<Car> Put(Car car)
         {
-            return await Cars.Update(car);
+            return Cars.Update(car);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Car>> Delete(int id)
+        public ActionResult<Car> Delete(int id)
         {
-            return await Cars.Delete(id);
+            return Cars.Delete(id);
         }
     }
 }
