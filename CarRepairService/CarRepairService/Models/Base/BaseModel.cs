@@ -1,6 +1,6 @@
-﻿namespace CarRepairService.Models
+﻿namespace CarRepairService.Models.Base
 {
-    public class BaseModel
+    public class BaseModel : PatchDtoBase
     {
         public int Id { get; set; }
     }

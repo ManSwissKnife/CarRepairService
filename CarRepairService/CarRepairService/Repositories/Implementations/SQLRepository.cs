@@ -1,76 +1,59 @@
-﻿using CarRepairService.DataBase;
-using CarRepairService.Mappers;
-using CarRepairService.Models;
+﻿using CarRepairService.Database;
+using CarRepairService.Mappers.Interfaces;
+using CarRepairService.Models.Base;
 using CarRepairService.Repositories.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarRepairService.Repositories.Implementations
 {
-    public class SQLRepository<T> : ControllerBase, IRepository<T> where T : BaseModel
+    public class SQLRepository<T, Y> : IRepository<T, Y> where T : BaseModel where Y : BaseModel
     {
-        private readonly CRSContext db;
-        private readonly IMapper<T> mapper;
+        private readonly CRSContext _db;
+        private readonly IMapper<T, Y> _mapper;
 
-        public SQLRepository(CRSContext  context, IMapper<T> modelMapper)
+        public SQLRepository(CRSContext  context, IMapper<T, Y> modelMapper)
         {
-            db = context;
-            mapper = modelMapper;
+            _db = context;
+            _mapper = modelMapper;
         }
 
-        public IEnumerable<T> GetList()
+        public async Task<IEnumerable<T>> GetListAsync()
         {
-            return db.Set<T>().ToList();
+            return await Task.Run(() => _db.Set<T>().ToList());
         }
 
-        public ActionResult<T> Get(int id)
+        public async Task<T> GetAsync(int id)
         {
-            T? item = db.Set<T>().FirstOrDefault(m => m.Id == id);
-            if (item == null)
-                return NotFound();
-            return new ObjectResult(item);
+            return await _db.Set<T>().FindAsync(id);
         }
 
-        public ActionResult<T> Create(T item)
+        public async Task<T> CreateAsync(T model)
         {
-            if (item == null)
-                return BadRequest();
-            db.Set<T>().Add(item);
-            db.SaveChanges();
-            return Ok(item);
+            await _db.Set<T>().AddAsync(model);
+            await _db.SaveChangesAsync();
+            return model;
         }
 
-        //patch
-        public ActionResult<T> Update(T item)
+        public async Task<T> UpdateAsync(Y model)
         {
-            if (item == null)
-                return BadRequest();
-            if (!db.Set<T>().Any(x => x.Id == item.Id))
-                return NotFound();
-            T? dbworker = db.Set<T>().FirstOrDefault(x => x.Id == item.Id);
-            if (dbworker == null)
-                return BadRequest();
-            mapper.Map(item, dbworker);
-            db.Update(dbworker);
-            db.SaveChanges();
-            return Ok(item);
-        }
-        //маппер
-
-        public ActionResult<T> Delete(int id)
-        {
-            T? item = db.Set<T>().FirstOrDefault(x => x.Id == id);
-            if (item == null)
-                return NotFound();
-            db.Set<T>().Remove(item);
-            db.SaveChanges();
-            return Ok(item);
+            T toUpdate = await _db.Set<T>().FindAsync(model.Id);
+            if (toUpdate != null)
+            {
+                _mapper.Map(toUpdate, model);
+                await _db.SaveChangesAsync();
+            }
+            return toUpdate;
         }
 
-        //public void Save()
-        //{
-        //    db.SaveChanges();
-        //}
+        public async Task<T> DeleteAsync(int id)
+        {
+            T model = await _db.Set<T>().FindAsync(id);
+            if (model != null)
+            {
+                _db.Set<T>().Remove(model);
+                await _db.SaveChangesAsync();
+            } 
+            return model;
+        }
 
         //private bool disposed = false;
 
