@@ -16,6 +16,8 @@ namespace CarRepairService.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasAlternateKey(u => u.Email);
+            modelBuilder.Entity<User>().HasAlternateKey(u => u.Username);
+            //modelBuilder.Entity<User>().OwnsOne(u => u.RefreshTokens);
         }
     }
 }

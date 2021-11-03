@@ -1,4 +1,6 @@
-﻿namespace CarRepairService.Models.Base
+﻿using CarRepairService.PatchRequestContractResolver;
+
+namespace CarRepairService.Models.Base
 {
     public class BaseModel : PatchDtoBase
     {

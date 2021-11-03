@@ -1,6 +1,6 @@
 ﻿using CarRepairService.Models;
 using CarRepairService.Models.DTO;
-using CarRepairService.Repositories.Interfaces;
+using CarRepairService.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +27,16 @@ namespace CarRepairService.Controllers
         [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> Get(int id)
+        {
+            Product product = await _products.GetAsync(id);
+            if (product == null)
+                return NotFound();
+            return new ObjectResult(product);
+        }
+
+        [Authorize]
+        [HttpPost("{id}/buy")]
+        public async Task<ActionResult<Product>> Buy(int id)
         {
             Product product = await _products.GetAsync(id);
             if (product == null)

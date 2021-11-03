@@ -1,6 +1,6 @@
 ﻿using CarRepairService.Models;
-using CarRepairService.Repositories.Interfaces;
-using CarRepairService.Services.Interfaces;
+using CarRepairService.Repositories;
+using CarRepairService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

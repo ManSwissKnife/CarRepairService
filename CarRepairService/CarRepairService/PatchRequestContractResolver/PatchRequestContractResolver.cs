@@ -3,7 +3,7 @@ using CarRepairService.Models.Base;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace CarRepairService.Models
+namespace CarRepairService.PatchRequestContractResolver
 {
     /// <summary>
     /// Class that plugs in to Newtonsoft deserialization pipeline for classes descending from <see cref="PatchDtoBase"/>.

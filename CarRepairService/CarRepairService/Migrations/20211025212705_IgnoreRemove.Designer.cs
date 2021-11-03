@@ -4,14 +4,16 @@ using CarRepairService.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRepairService.Migrations
 {
     [DbContext(typeof(CRSContext))]
-    partial class CRSContextModelSnapshot : ModelSnapshot
+    [Migration("20211025212705_IgnoreRemove")]
+    partial class IgnoreRemove
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,53 +129,26 @@ namespace CarRepairService.Migrations
 
             modelBuilder.Entity("CarRepairService.Models.User", b =>
                 {
-                    b.OwnsMany("CarRepairService.Models.RefreshToken", "RefreshTokens", b1 =>
+                    b.OwnsOne("System.Collections.Generic.List<CarRepairService.Models.RefreshToken>", "RefreshTokens", b1 =>
                         {
-                            b1.Property<int>("Id")
+                            b1.Property<int>("UserId")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                            b1.Property<DateTime>("Created")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("CreatedByIp")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime>("Expires")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("ReasonRevoked")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("ReplacedByToken")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime?>("Revoked")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("RevokedByIp")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Token")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<int>("UserId")
+                            b1.Property<int>("Capacity")
                                 .HasColumnType("int");
 
-                            b1.HasKey("Id");
+                            b1.HasKey("UserId");
 
-                            b1.HasIndex("UserId");
-
-                            b1.ToTable("RefreshToken");
+                            b1.ToTable("Users");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
                         });
 
-                    b.Navigation("RefreshTokens");
+                    b.Navigation("RefreshTokens")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

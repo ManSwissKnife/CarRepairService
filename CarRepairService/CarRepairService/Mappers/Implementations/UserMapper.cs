@@ -10,8 +10,13 @@ namespace CarRepairService.Mappers.Implementations
         public void Map(User toUser, UserDTO fromUser)
         {
             toUser.Email = fromUser.IsFieldPresent(nameof(fromUser.Email)) ? fromUser.Email : toUser.Email;
-            toUser.Login = fromUser.IsFieldPresent(nameof(fromUser.Login)) ? fromUser.Login : toUser.Login;
-            toUser.Password = fromUser.IsFieldPresent(nameof(fromUser.Password)) ? fromUser.Password : toUser.Password;
+            toUser.Username = fromUser.IsFieldPresent(nameof(fromUser.Login)) ? fromUser.Login : toUser.Username;
+            toUser.PasswordHash = fromUser.IsFieldPresent(nameof(fromUser.Password)) ? fromUser.Password : toUser.PasswordHash;
+        }
+
+        public void Map(User fromEntity, User toEntity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -11,5 +11,10 @@ namespace CarRepairService.Mappers.Implementations
             toProduct.Name = fromProduct.IsFieldPresent(nameof(fromProduct.Name)) ? fromProduct.Name : toProduct.Name;
             toProduct.Price = fromProduct.IsFieldPresent(nameof(fromProduct.Price)) ? fromProduct.Price : toProduct.Price;
         }
+
+        public void Map(Product fromEntity, Product toEntity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
