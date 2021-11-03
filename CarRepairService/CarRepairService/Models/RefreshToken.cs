@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace CarRepairService.Models
 {
