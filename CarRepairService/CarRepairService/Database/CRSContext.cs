@@ -5,6 +5,7 @@ namespace CarRepairService.Database
 {
     public class CRSContext : DbContext
     {
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<User> Users { get; set; }

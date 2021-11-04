@@ -15,8 +15,7 @@ namespace CarRepairService.Models
         public decimal Balance { get; set; }
         [JsonIgnore]
         public List<RefreshToken> RefreshTokens { get; set; }
-        public int BasketId { get; set; }
-        public Basket Basket { get; set; }
+        public List<Product> Products { get; set; }
         public List<Comment> Comments { get; set; }
     }
 }

@@ -16,12 +16,10 @@ namespace CarRepairService.Controllers
     {
         private readonly IUserService _userService;
         private readonly IUserRepository _users;
-        private readonly IRepository<User, UserDTO> _tUsers;
-        public AccountController(IUserService userService, IUserRepository users, IRepository<User, UserDTO> tUsers)
+        public AccountController(IUserService userService, IUserRepository users)
         {
             _userService = userService;
             _users = users;
-            _tUsers = tUsers;
         }
         [HttpPost("login")]
         public async Task<IActionResult> Authenticate(AuthenticateRequest model)
@@ -79,8 +77,6 @@ namespace CarRepairService.Controllers
                 return BadRequest();
             string name = User.Identity.Name;
             User toUpdateUser = await _users.UpdateUserAsync(name, user);
-            if (toUpdateUser == null)
-                return NotFound();
             return Ok(toUpdateUser);
         }
         [Authorize]
@@ -89,8 +85,6 @@ namespace CarRepairService.Controllers
         {
             AuthenticateRequest user = new() { Username = User.Identity.Name, Password = password };
             User toDeleteUser = await _users.DeleteUserAsync(user);
-            if (user == null)
-                return NotFound();
             return Ok(toDeleteUser);
         }
         [Authorize]
@@ -98,16 +92,14 @@ namespace CarRepairService.Controllers
         public async Task<ActionResult<User>> Get()
         {
             User user = await _users.GetUserAsync(User.Identity.Name);
-            if (user == null)
-                return NotFound();
             return new ObjectResult(user);
         }
         [Authorize]
         [HttpPost("increase-balance")]
         public async Task<ActionResult<User>> IncreaseBalance(decimal sum)
         {
-            if (sum < 0)
-                return BadRequest("eeeer");
+            if (sum <= 0)
+                return BadRequest(new { message = "Enter an amount greater than 0" });
             _users.IncreaseBalance(User.Identity.Name, sum);
             return Ok();
         }
