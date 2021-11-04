@@ -1,7 +1,7 @@
 ﻿using CarRepairService.Database;
 using CarRepairService.Mappers.Interfaces;
 using CarRepairService.Models;
-using CarRepairService.Models.Base;
+
 
 namespace CarRepairService.Repositories
 {

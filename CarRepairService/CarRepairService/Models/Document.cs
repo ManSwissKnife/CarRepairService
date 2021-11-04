@@ -1,4 +1,4 @@
-﻿using CarRepairService.Models.Base;
+﻿
 
 namespace CarRepairService.Models
 {

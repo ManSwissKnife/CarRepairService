@@ -1,6 +1,6 @@
 ﻿using CarRepairService.PatchRequestContractResolver;
 
-namespace CarRepairService.Models.Base
+namespace CarRepairService.Models
 {
     public class BaseModel : PatchDtoBase
     {
