@@ -106,6 +106,8 @@ namespace CarRepairService.Controllers
         [HttpPost("increase-balance")]
         public async Task<ActionResult<User>> IncreaseBalance(decimal sum)
         {
+            if (sum < 0)
+                return BadRequest("eeeer");
             _users.IncreaseBalance(User.Identity.Name, sum);
             return Ok();
         }
